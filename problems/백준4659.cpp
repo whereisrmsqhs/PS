@@ -76,9 +76,9 @@ int main(){
     bool third = FinalCondition();
 
     if(first && second && third){
-      cout << "<" << word << "> is acceptable.";
+      cout << "<" << word << "> is acceptable.\n";
       continue; 
     }
-    cout << "<" << word << "> is not acceptable.";
+    cout << "<" << word << "> is not acceptable.\n";
   }
 }
