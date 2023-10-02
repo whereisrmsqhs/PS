@@ -32,19 +32,21 @@ int main(){
             continue;
           }
           else{
-            answer.push_back("no");
+            //s.push(sentence[i]);
             break;
           }
         }
         else{
           s.push(sentence[i]);
-          answer.push_back("no");
           break;
         }
       }
     }
     if(s.empty()){
       answer.push_back("yes");
+    }
+    else{
+      answer.push_back("no");
     }
   }
 
