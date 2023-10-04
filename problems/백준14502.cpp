@@ -4,7 +4,7 @@
 #include<cstring>
 using namespace std;
 
-int N, M, x, y, cnt=3, ans=0;
+int N, M, x, y, nx, ny, cnt=3, ans=0;
 int map[10][10], tmap[10][10];
 int dx[4] = {-1, 0, 1, 0};
 int dy[4] = {0, 1, 0, -1};
@@ -23,10 +23,10 @@ void bfs(){
         q.push({i, j});
         while(!q.empty()){
           tie(x, y) = q.front(); q.pop();
-          for(int i = 0; i < 4; i++){
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if(nx < 0 || nx >= N || ny < 0 || ny >= N) continue;
+          for(int k = 0; k < 4; k++){
+            nx = x + dx[k];
+            ny = y + dy[k];
+            if(nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
             if(tmap[nx][ny]==0){
               q.push({nx, ny});
               tmap[nx][ny] = 2;
@@ -42,8 +42,9 @@ void bfs(){
       if(tmap[i][j]==0) temp++;
     }
   }
-  
-  if(temp > ans) ans = temp;
+  if(temp > ans) {
+    ans = temp;
+  }
 }
 
 void search(){
