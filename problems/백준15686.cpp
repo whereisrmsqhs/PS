@@ -1,13 +1,24 @@
 #include<iostream>
-#include<queue>
-#include<tuple>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
-int N, M;
-int map[51][51], visited[51][51];
+int N, M, result=987654321;
+int a[51][51];
+vector<pair<int, int>> chicken, _home;
+vector<vector<int>> chicken_list;
 
-void bfs(){
-  
+void combi(int start, vector<int> v){
+  if(v.size() == M){
+    chicken_list.push_back(v);
+    return;
+  }
+
+  for(int i = start+1; i < chicken.size(); i++){
+    v.push_back(i);
+    combi(i, v);
+    v.pop_back();
+  }
 }
 
 int main(){
@@ -18,15 +29,31 @@ int main(){
   cin >> N >> M;
   for(int i = 0; i < N; i++){
     for(int j = 0; j < N; j++){
-      cin >> map[i][j];
-    }
-  }
-
-  for(int i = 0; i < N; i++){
-    for(int j = 0; j < N; j++){
-      if(map[i][j]==2){
-        bfs();
+      cin >> a[i][j];
+      if(a[i][j]==2){
+        chicken.push_back({i, j});
+      }
+      if(a[i][j]==1){
+        _home.push_back({i, j});
       }
     }
   }
+
+  vector<int> v;
+  combi(-1, v);
+  for(vector<int> cList : chicken_list){
+    int ret = 0;
+    for(pair<int, int> home : _home){
+      int _min = 987654321;
+      for(int ch : cList){
+        int _dist = abs(home.first - chicken[ch].first) + abs(home.second - chicken[ch].second);
+        _min = min(_min, _dist);
+      }
+      ret += _min;
+    }
+    result = min(result, ret);
+  }
+
+  cout << result << "\n";
+  return 0;
 }
