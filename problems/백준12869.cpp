@@ -1,36 +1,29 @@
+// 출처 :  https://transferhwang.tistory.com/462
 #include<iostream>
 #include<vector>
-#include<algorithm>
+#include<cstring>
 using namespace std;
 
-int N, temp, cnt=987654321, t_cnt=0;
-vector<int> scv;
-int damage[3] = {9, 3, 1};
+int scv[3], N;
+int dp[61][61][61]; 
 
-void permutation(vector<int> v){
-  t_cnt++;
-  sort(v.begin(), v.end());
-  do {
-    int zeros = 0;
-    vector<int> t_v = v;
-    for(int i = 0; i < N; i++){
-      t_v[i] -= damage[i];
-      if(t_v[i] <= 0) zeros++;
-    }
-    for(int i = 0; i < N; i++){
-      cout << t_v[i] << " ";
-    }
-    cout << "\n";
-    cout << "t_cnt: " << t_cnt << ", cnt: " << cnt << "\n";
-    if(zeros == N){
-      cnt = min(cnt, t_cnt);
-      t_cnt--;
-      return; 
-    }
-    else{
-      permutation(t_v);
-    }
-  } while(next_permutation(v.begin(), v.end()));
+int dfs(int a, int b, int c){
+  if(a < 0) return dfs(0, b, c);
+  if(b < 0) return dfs(a, 0, c);
+  if(c < 0) return dfs(a, b, 0);
+
+  if(dp[a][b][c] != -1) return dp[a][b][c];
+  if(a == 0 && b == 0 && c == 0) return 0;
+
+  dp[a][b][c] = 987654321;
+  dp[a][b][c] = min(dp[a][b][c], dfs(a - 9, b - 3, c - 1) + 1);
+  dp[a][b][c] = min(dp[a][b][c], dfs(a - 9, b - 1, c - 3) + 1);
+  dp[a][b][c] = min(dp[a][b][c], dfs(a - 3, b - 9, c - 1) + 1);
+  dp[a][b][c] = min(dp[a][b][c], dfs(a - 3, b - 1, c - 9) + 1);
+  dp[a][b][c] = min(dp[a][b][c], dfs(a - 1, b - 9, c - 3) + 1);
+  dp[a][b][c] = min(dp[a][b][c], dfs(a - 1, b - 3, c - 9) + 1);
+
+  return dp[a][b][c];
 }
 
 int main(){
@@ -40,10 +33,9 @@ int main(){
 
   cin >> N;
   for(int i = 0; i < N; i++){
-    cin >> temp;
-    scv.push_back(temp);
+    cin >> scv[i];
   }
-  permutation(scv);
 
-  cout << cnt << "\n";
+  memset(dp, -1, sizeof(dp));
+  cout << dfs(scv[0], scv[1], scv[2]);
 }
