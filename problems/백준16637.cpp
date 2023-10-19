@@ -2,12 +2,13 @@
 #include<algorithm>
 #include<vector>
 #include<cstring>
+#include<list>
 using namespace std;
 
 int N;
 String expression;
-vector<int> orders, nums;
-vector<char> operators;
+list<int> orders, nums;
+list<char> operators;
 
 int main(){
   ios_base::sync_with_stdio(false);
@@ -24,15 +25,15 @@ int main(){
     operators.push_back(expression[i]);
   }
 
-
   for(int i = 1; i <= N/3; i++){
     orders.push_back(i);
   }
 
   do {
     int sum = 0;
-    for(int i = 0; i < orders; i++){
-      int current = orders[i]-1;
+    for(int i = 0; i < orders.size(); i++){
+      if(orders[i] == N/2) continue;
+      
       
     }
 
