@@ -1,33 +1,40 @@
 #include<iostream>
 #include<queue>
 #include<vector>
+#include<cstring>
 using namespace std;
 
-int N, K, ans=0;
+int N, K, ans;
+int cnt = 0;
 vector<int> visited(100001);
-vector<int> answer;
 
-void bfs(int start){
-  if(start==K){
-    cout << ans << "\n";
-    answer.push_back(ans);
-    return ; 
-  }
+void bfs(){
+  queue<pair<int, int>> q;
+  q.push({N, 0});
+  while(!q.empty()){
+    int loc = q.front().first;
+    int time = q.front().second;
+    visited[loc] = 1;
+    q.pop();
 
-  visited[start] = 1;
-  ans++;
+    if(loc==K){
+      if(!ans){
+        ans = time;
+        cnt = 1;
+      }
+      else if(ans==time) cnt++;
+    }
 
-  if(start+1 <= 100000 && visited[start+1] == 0){
-    bfs(start+1);
+    if(loc-1 >= 0 && visited[loc-1]==0){
+      q.push({loc-1, time+1});
+    }
+    if(loc+1 <= 100001 && visited[loc+1]==0){
+      q.push({loc+1, time+1});
+    }
+    if(loc*2 <= 100001 && visited[loc*2]==0){
+      q.push({loc*2, time+1});
+    }
   }
-  if(start-1 >= 0 && visited[start-1] == 0){
-    bfs(start-1);
-  }
-  if(start*2 <= 100000 && visited[2*start] == 0){
-    bfs(2*start);
-  }
-  visited[start+1] = 0;
-  
 }
 
 int main(){
@@ -37,5 +44,10 @@ int main(){
 
   cin >> N >> K;
 
-  bfs(N);
+  fill(visited.begin(), visited.end(), 0);
+  bfs();
+
+  cout << ans << "\n";
+  cout << cnt << "\n";
+  return 0;
 }
