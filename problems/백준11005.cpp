@@ -22,7 +22,7 @@ int main() {
     if(result[i] >= 0 && result[i] <= 9) {
       cout << result[i];
     }
-    cout << (char)(result[i] - 10 + 'A');
+    else cout << (char)(result[i] - 10 + 'A');
   }
   cout << "\n";
   return 0;
